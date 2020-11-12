@@ -389,7 +389,7 @@ class NERModel(BaseModel):
         input_file=tempfile.mkstemp(dir=dirpath)
         output_file=tempfile.mkstemp(dir=dirpath)
         labels=create_test_file(test,input_file[1]) #recuperate the right label of each word in sentences
-        p = run(['api_c++/module_NER/release/moduleNer','--language',self.config.language,'--resources-dir',self.config.dir_resources,'--output-graph',self.config.output_graph,'--output-file-without-tags',output_file[1],'--input-file',input_file[1]]) #executable to run to evaluate the model over c++ api
+        p = run(['limaTfNer','--language',self.config.language,'--resources-dir',self.config.dir_resources,'--output-graph',self.config.output_graph,'--output-file-without-tags',output_file[1],'--input-file',input_file[1]]) #executable to run to evaluate the model over c++ api
         with open(output_file[1],"r") as f:
           for line in f:
             line=line.strip() #each line is (token,tag's identifier)
