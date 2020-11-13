@@ -15,12 +15,12 @@ __license__ = """
  limitations under the License.
 """
 
-from model.config import Config
+from tfner.config import Config
 
 import sys,argparse
 from argparse import RawTextHelpFormatter
 
-from model.data_utils import CoNLLDataset, get_vocabs, UNK, NUM, \
+from tfner.data_utils import CoNLLDataset, get_vocabs, UNK, NUM, \
     get_glove_vocab, write_vocab, load_vocab, get_char_vocab, \
     export_trimmed_glove_vectors, get_processing_word
 

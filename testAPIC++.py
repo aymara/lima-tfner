@@ -1,6 +1,6 @@
-from model.data_utils import CoNLLDataset, create_test_file
-from model.ner_model import NERModel
-from model.config import Config
+from tfner.data_utils import CoNLLDataset, create_test_file
+from tfner.ner_model import NERModel
+from tfner.config import Config
 import sys,argparse
 from argparse import RawTextHelpFormatter
 

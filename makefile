@@ -9,3 +9,6 @@ run:
 	python evaluate.py
 	python freezeGraph.py
 	python testAPIC++.py
+
+install:
+	pip install .

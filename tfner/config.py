@@ -42,10 +42,10 @@ class Config():
           self.dim_char = 100
 
           # glove files
-          self.filename_glove = "data/glove.6B/glove.6B.{}d.txt".format(self.dim_word)
+          self.filename_glove = "/home/romaric/data/embeddings/glove/glove.6B.{}d.txt".format(self.dim_word)
 
           # trimmed embeddings (created from glove_filename with build_data.py)
-          self.filename_trimmed = "data/glove.6B.{}d.trimmed.npz".format(self.dim_word)
+          self.filename_trimmed = "/home/romaric/data/embeddings/glove/glove.6B.{}d.trimmed.npz".format(self.dim_word)
           self.use_pretrained = True
 
           self.dir_resources='data/IOB1/eng/'

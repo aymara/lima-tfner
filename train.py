@@ -15,9 +15,9 @@ __license__ = """
  limitations under the License.
 """
 
-from model.data_utils import CoNLLDataset
-from model.ner_model import NERModel
-from model.config import Config
+from tfner.data_utils import CoNLLDataset
+from tfner.ner_model import NERModel
+from tfner.config import Config
 
 import sys,argparse
 from argparse import RawTextHelpFormatter
@@ -47,6 +47,12 @@ def main(language="eng"):
     # train model
     model.train(train, dev)
 
+    model.build_freeze()
+    model.restore_session(config.dir_model)
+    # freeze the graph
+    model.freeze_my_graph()
+
+    
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='''NE recognizer''', formatter_class=RawTextHelpFormatter)
     parser.add_argument('--lang', required=False, default="eng", help="Specify the language between french as fr and english as eng")

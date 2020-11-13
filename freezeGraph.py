@@ -14,8 +14,8 @@ __license__ = """
  limitations under the License.
 """
 
-from model.ner_model import NERModel
-from model.config import Config
+from tfner.ner_model import NERModel
+from tfner.config import Config
 
 import sys,argparse
 from argparse import RawTextHelpFormatter

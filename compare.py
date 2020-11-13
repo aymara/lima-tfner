@@ -15,9 +15,9 @@ __license__ = """
  limitations under the License.
 """
 
-from model.data_utils import CoNLLDataset, read_limafile
-from model.ner_model import NERModel
-from model.config import Config
+from tfner.data_utils import CoNLLDataset, read_limafile
+from tfner.ner_model import NERModel
+from tfner.config import Config
 import sys,argparse
 from argparse import RawTextHelpFormatter
 
