@@ -504,6 +504,7 @@ def create_test_file(data,file):
     with open(file,"w") as f:
       y_batch = []
       for (x, y) in data:
+        print(x)  
         input_raw=""
         input_raw+=' '.join(x)+'\n'
         f.write(input_raw)

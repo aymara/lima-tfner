@@ -66,3 +66,21 @@ def build_model(config):
     model.restore_session(config.dir_model)
     model.freeze_my_graph()
     
+def eval_model(config, print_results=False, use_cpp_api=False):
+    # suppose the data is already preprocessed (build_model should have been called before the eval)
+    config.load()
+    model = NERModel(config)
+    # evaluate and interact
+    if use_cpp_api:
+        test  = utils.CoNLLDataset(config.filename_test, None,
+                                   config.processing_tag, config.max_iter)
+        model.evaluate_on_cplusplus_api(test,print_results=print_results)
+    else:
+        model.build()
+        model.restore_session(config.dir_model)
+        test  = utils.CoNLLDataset(config.filename_test, config.processing_word,
+                                   config.processing_tag, config.max_iter)
+        model.evaluate(test,print_results=print_results)
+        
+
+    

@@ -167,7 +167,7 @@ class BaseModel(object):
                       #run(['python','freezeGraph.py','--lang',self.config.language])
                       break
 
-    def evaluate(self, test):
+    def evaluate(self, test, print_results=False):
         """Evaluate model on test set
 
         Args:
@@ -175,12 +175,12 @@ class BaseModel(object):
 
         """
         self.logger.info("Testing model over test set")
-        metrics = self.run_evaluate(test)
+        metrics = self.run_evaluate(test,print_results)
         msg = " - ".join(["{} {:04.2f}".format(k, v)
                 for k, v in metrics.items()])
         self.logger.info(msg)
 
-    def evaluate_on_cplusplus_api(self, test):
+    def evaluate_on_cplusplus_api(self, test, print_results=False):
         """Evaluate model on test set
 
         Args:
@@ -189,7 +189,7 @@ class BaseModel(object):
         """
         self.logger.info("Testing model over test set")
         start_time = time.perf_counter()
-        metrics = self.run_evaluate_on_cplusplus_api(test)
+        metrics = self.run_evaluate_on_cplusplus_api(test,print_results)
         print("--- Execution time : %s seconds ---" % (time.perf_counter() - start_time))
         msg = " - ".join(["{} {:04.2f}".format(k, v)
                 for k, v in metrics.items()])

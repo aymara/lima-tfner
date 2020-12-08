@@ -332,7 +332,7 @@ class NERModel(BaseModel):
         return metrics["f1"]
 
 
-    def run_evaluate(self, test):
+    def run_evaluate(self, test, print_results=False):
         """Evaluates performance on test set
 
         Args:
@@ -342,6 +342,13 @@ class NERModel(BaseModel):
             metrics: (dict) metrics["acc"] = 98.4, ...
 
         """
+        
+        if print_results:
+            # reverse the vocab_tags dict for easy access during print
+            tags={}
+            for (name,idx) in self.config.vocab_tags.items():
+                tags[idx]=name
+
         accs = []
         correct_preds, total_correct, total_preds = 0., 0., 0.
         time_t = 0.000
@@ -349,12 +356,18 @@ class NERModel(BaseModel):
             start_time = time.perf_counter()
             labels_pred, sequence_lengths = self.predict_batch(words)
             time_t+=time.perf_counter() - start_time
+            iw=0
             for lab, lab_pred, length in zip(labels, labels_pred,
                                              sequence_lengths):
                 lab      = lab[:length]
                 lab_pred = lab_pred[:length]
                 accs    += [a==b for (a, b) in zip(lab, lab_pred)]
 
+                if print_results:
+                    for i in range(length):
+                        # change to readable tags
+                        print(tags[lab[i]],tags[lab_pred[i]])
+                
                 lab_chunks      = set(get_chunks(lab, self.config.vocab_tags))
                 lab_pred_chunks = set(get_chunks(lab_pred,
                                                  self.config.vocab_tags))
@@ -372,7 +385,7 @@ class NERModel(BaseModel):
         print("--- Execution time per minibatch : %s seconds ---" % (time_t/self.config.batch_size))
         return {"acc": 100*acc, "f1": 100*f1, "precision" :100*p,"recall": 100*r}
 
-    def run_evaluate_on_cplusplus_api(self,test):
+    def run_evaluate_on_cplusplus_api(self,test,print_results=False):
         """Evaluates performance on test set
 
         Args:
@@ -392,6 +405,8 @@ class NERModel(BaseModel):
         p = run(['limaTfNer','--language',self.config.language,'--resources-dir',self.config.dir_resources,'--output-graph',self.config.output_graph,'--output-file-without-tags',output_file[1],'--input-file',input_file[1]]) #executable to run to evaluate the model over c++ api
         with open(output_file[1],"r") as f:
           for line in f:
+            if print_results:
+                print(line)
             line=line.strip() #each line is (token,tag's identifier)
             if(len(line)==0 and tag!=[]):
               sequence_lengths+=[len(tag)]
