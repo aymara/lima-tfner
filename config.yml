@@ -1,0 +1,15 @@
+language: eng
+
+dim_word: 300
+filename_glove: $HOME/data/embeddings/glove/glove.6B.300d.txt
+
+filename_train: data/IOB1/eng/eng.train
+filename_dev: data/IOB1/eng/eng.testa
+filename_test: data/IOB1/eng/eng.testb
+
+dir_output: my_results
+
+# store words/chars/tags representations in result directory
+filename_words: my_results/words.txt
+filename_chars: my_results/chars.txt
+filename_tags: my_results/tags.txt
