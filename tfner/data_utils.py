@@ -82,7 +82,8 @@ class CoNLLDataset(object):
             for line in f:
                 line = line.strip()
                 if (len(line) == 0 or line.startswith("-DOCSTART-")):
-                    if len(words) != 0:
+                    # if len(words) != 0:
+                    if len(words) > 1: # ignore sentences of size 1 (e.g. ". SENT")
                         niter += 1
                         if self.max_iter is not None and niter > self.max_iter:
                             break
