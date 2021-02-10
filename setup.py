@@ -7,4 +7,5 @@ setup(name='lima-tfner',
       license='CEA',
       packages=['tfner'],
       include_package_data=True,
-      zip_safe=False)
+      zip_safe=False,
+      install_requires=['tensorflow<=1.9.0'])

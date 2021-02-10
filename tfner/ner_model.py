@@ -14,10 +14,12 @@ __license__ = """
  See the License for the specific language governing permissions and
  limitations under the License.
 """
-
+from packaging import version
 import numpy as np
 import os,shutil,tempfile
 import tensorflow as tf
+if version.parse(tf.__version__) > version.parse("1.9.0"):
+    raise("Error - Unsupported version {} of tensorflow. Supported versions are >= 1.3 and <= 1.9.0 ".format(tf.__version__))
 from subprocess import run, PIPE
 import time
 
@@ -33,7 +35,6 @@ class NERModel(BaseModel):
         super(NERModel, self).__init__(config)
         self.idx_to_tag = {idx: tag for tag, idx in
                            self.config.vocab_tags.items()}
-
 
     def add_placeholders(self):
         """Define placeholders = entries to computational graph"""
@@ -342,7 +343,7 @@ class NERModel(BaseModel):
             metrics: (dict) metrics["acc"] = 98.4, ...
 
         """
-        
+
         if print_results:
             # reverse the vocab_tags dict for easy access during print
             tags={}
@@ -367,7 +368,7 @@ class NERModel(BaseModel):
                     for i in range(length):
                         # change to readable tags
                         print(tags[lab[i]],tags[lab_pred[i]])
-                
+
                 lab_chunks      = set(get_chunks(lab, self.config.vocab_tags))
                 lab_pred_chunks = set(get_chunks(lab_pred,
                                                  self.config.vocab_tags))
