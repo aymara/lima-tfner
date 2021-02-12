@@ -31,7 +31,7 @@ def get_logger(filename):
         logger: (instance of logger)
 
     """
-    logger = logging.getLogger('logger')
+    logger = logging.getLogger('lima-tfner')
     logger.setLevel(logging.DEBUG)
     logging.basicConfig(format='%(message)s', level=logging.DEBUG)
     handler = logging.FileHandler(filename)
@@ -153,5 +153,3 @@ class Progbar(object):
 
     def add(self, n, values=[]):
         self.update(self.seen_so_far+n, values)
-
-

@@ -66,7 +66,7 @@ ConfigSchema = {
       "path_log": { "type": "string", "description": "name of output file containing the log (relative to dir_output)", "default":"log.txt"},
       "input_graph": { "type": "string", "description": "path to output file containing training chars (relative to dir_output)", "default":"input_graph.pb"},
       "output_graph": { "type": "string", "description": "path to output file containing training chars (relative to dir_output)", "default":"output_graph.pb" },
-      
+
       # parameters for the NN model and training
       "max_iter": { "type": ["string","null"], "description": "if not null, max number of examples in Dataset", "default":"null" },
       "train_embeddings": { "type": "boolean", "description": "indicates if pretrained embeddings are used","default":False},
@@ -80,7 +80,7 @@ ConfigSchema = {
       "nepoch_no_imprv": { "type": "integer", "description": "nb epochs without improvement","default":3},
       "hidden_size_char": { "type": "integer", "description": "size of lstm on chars","default":100},
       "hidden_size_lstm": { "type": "integer", "description": "size of lstm on word embeddings","default":300},
-  
+
       "use_crf": { "type": "boolean", "description": "use the CRF","default":True},
       "use_chars": { "type": "boolean", "description": "use character representations","default":True}
   }
@@ -120,7 +120,12 @@ class ModelConfig(Config):
             self.__dict__.update(**cfg)
 
         # validate paths
-        self.filename_glove=self.validate_path(self.filename_glove)
+        tmp_filename_glove=self.validate_path(self.filename_glove)
+        if tmp_filename_glove is None:
+            msg="Could not read GloVe embeddings : filename_glove: %s"%self.filename_glove
+            logging.error(msg)
+            raise ConfigException(msg)
+        self.filename_glove = tmp_filename_glove
         if not self.filename_trimmed:
             self.filename_trimmed=self.filename_glove+".trimmed.npz"
 
@@ -133,7 +138,7 @@ class ModelConfig(Config):
 
         # create instance of logger
         self.logger = general_utils.get_logger(self.path_log)
-        
+
     def validate(self,data):
         try:
             #jsonschema.validate(instance=data, schema=ConfigSchema)
@@ -142,7 +147,7 @@ class ModelConfig(Config):
             logging.error(err)
             return False,err.message
         return True,""
-        
+
     def validate_path(self,path,create=False):
         if path is not None:
             #if self.working_dir is not None:
