@@ -96,7 +96,6 @@ class BaseModel(object):
         """Reload weights into session
 
         Args:
-            sess: tf.Session()
             dir_model: dir with weights
 
         """
